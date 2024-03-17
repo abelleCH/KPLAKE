@@ -18,7 +18,7 @@ if response.status_code == 200:
     for folder in data['Folders']:
         if folder['Name'] == '02 - Squad Identity Station':
             # Récupérer l'URL du dossier "02 - Squad Identity Station"
-            folder_url = folder['ServerRelativeUrl']
+            folder_url = "%2Fteam%2FSfFrontOffice%2FDocuments%20partages%2F02%20-%20Squad%20Identity%20Station&FolderCTID=0x012000171359A7C53D494DB5D00E85CEC98595&View=%7BC4D67FB1-BE2D-45C5-9904-02C48F283546%7D"
 
             # Récupérer les fichiers du dossier "02 - Squad Identity Station"
             files_url = f"https://connectin.ingroupe.com/team/SfFrontOffice/_api/web/getfolderbyserverrelativeurl('{folder_url}')/files"
