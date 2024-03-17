@@ -1,35 +1,32 @@
 import requests
 
-url = "https://connectin.ingroupe.com/team/SfFrontOffice/SitePages/Accueil.aspx"
-response = requests.get(url)
+# URL de l'API SharePoint pour récupérer les éléments d'une liste ou d'une bibliothèque
+api_url = "https://connectin.ingroupe.com/team/SfFrontOffice/_api/web/getfolderbyserverrelativeurl('/team/SfFrontOffice/Documents partages/02 - Squad Identity Station/15 - Gabon LCU (GROAD)/Livraisons')/folders"
 
+# Remplacez 'votre_nom_utilisateur' et 'votre_mot_de_passe' par vos identifiants SharePoint
+username = 'tburdinat'
+password = '?MWRL1R8if'
+
+# Envoyer une requête GET à l'API SharePoint pour récupérer les dossiers
+response = requests.get(api_url, auth=(username, password))
+
+# Vérifier si la requête a réussi
 if response.status_code == 200:
-    print("Requête réussie !")
+    data = response.json()
+    # Parcourir les dossiers et les afficher
+    for folder in data['value']:
+        print("Dossier:", folder['Name'])
+    
+    # Récupérer les fichiers
+    files_url = "https://connectin.ingroupe.com/team/SfFrontOffice/_api/web/getfolderbyserverrelativeurl('/team/SfFrontOffice/Documents partages/02 - Squad Identity Station/15 - Gabon LCU (GROAD)/Livraisons')/files"
+    files_response = requests.get(files_url, auth=(username, password))
+    
+    if files_response.status_code == 200:
+        files_data = files_response.json()
+        # Parcourir les fichiers et les afficher
+        for file in files_data['value']:
+            print("Fichier:", file['Name'])
+    else:
+        print("Erreur lors de la récupération des fichiers:", files_response.status_code)
 else:
-    print("Erreur lors de la requête :", response.status_code,verify=False)
-
-# # Remplacez ces valeurs par les vôtres
-# site_url = "https://connectin.ingroupe.com/team/SfFrontOffice/SitePages/Accueil.aspx"
-# file_relative_url = "RootFolder=%2Fteam%2FSfFrontOffice%2FDocuments%20partages%2F02%20-%20Squad%20Identity%20Station&FolderCTID=0x012000171359A7C53D494DB5D00E85CEC98595&View=%7BC4D67FB1-BE2D-45C5-9904-02C48F283546%7D"  # Spécifiez le chemin relatif du fichier à partir du site SharePoint
-
-# # URL de l'API REST pour obtenir les informations sur le fichier spécifiégi
-# api_url = f"{site_url}/_api/web/getfilebyserverrelativeurl('{file_relative_url}')"
-
-# # Headers requis pour spécifier le type de contenu et l'authentification
-# headers = {
-#     "Accept": "application/json;odata=verbose",s
-#     "Content-Type": "application/json;odata=verbose"
-# }
-
-# # Envoyer une requête GET à l'API SharePoint pour obtenir les informations sur le fichier
-# response = requests.get(api_url, headers=headers)
-
-# # Vérifier si la requête a réussi (code de statut HTTP 200)
-# if response.status_code == 200:
-#     data = response.json()
-#     # Extraire et afficher le nom du fichier
-#     file_name = data['d']['Name']
-#     print("Nom du fichier :", file_name)
-# else:
-#     print("Erreur lors de la requête :", response.status_code)
-####################""
+    print("Erreur lors de la récupération des dossiers:", response.status_code)
