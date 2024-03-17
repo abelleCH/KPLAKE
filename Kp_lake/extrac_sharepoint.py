@@ -6,7 +6,7 @@ response = requests.get(url)
 if response.status_code == 200:
     print("Requête réussie !")
 else:
-    print("Erreur lors de la requête :", response.status_code)
+    print("Erreur lors de la requête :", response.status_code,verify=False)
 
 # # Remplacez ces valeurs par les vôtres
 # site_url = "https://connectin.ingroupe.com/team/SfFrontOffice/SitePages/Accueil.aspx"
@@ -17,7 +17,7 @@ else:
 
 # # Headers requis pour spécifier le type de contenu et l'authentification
 # headers = {
-#     "Accept": "application/json;odata=verbose",
+#     "Accept": "application/json;odata=verbose",s
 #     "Content-Type": "application/json;odata=verbose"
 # }
 
